@@ -22,13 +22,13 @@ public class CarIllegalRules extends BaseRules{
 	public static void main(String[] args) {
 		try {
 			KieServices ks = KieServices.Factory.get();  
-            KieContainer kContainer = ks.getKieClasspathContainer();  
-            KieSession ksession = kContainer.newKieSession("ksession-rules");
+            		KieContainer kContainer = ks.getKieClasspathContainer();  
+        	    	KieSession ksession = kContainer.newKieSession("ksession-rules");
 	        
-	        CarIllegalRules carIllegalRules = new CarIllegalRules(10,500,10);
-	        ksession.insert(carIllegalRules);
-	        ksession.fireAllRules();
-	        System.out.println(carIllegalRules.isCan_push()+"，"+carIllegalRules.getContent());    
+	 	        CarIllegalRules carIllegalRules = new CarIllegalRules(10,500,10);
+	 	        ksession.insert(carIllegalRules);
+		        ksession.fireAllRules();
+		        System.out.println(carIllegalRules.isCan_push()+"，"+carIllegalRules.getContent());    
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
