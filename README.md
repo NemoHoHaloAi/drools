@@ -209,33 +209,33 @@ public class ActivityUtil {
 ## step 4.1 -- create a file instance with string(step 4 use this)
 ```
 public static File getFileFromText(String tempFileName, String fileTail, String text) {
-		try {
-			File file = File.createTempFile(tempFileName, fileTail);
-			FileOutputStream fos = new FileOutputStream(file);
-			fos.write(text.getBytes());
-			if(fos!=null){
-			    fos.close();
-			}
-			return file;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	try {
+		File file = File.createTempFile(tempFileName, fileTail);
+		FileOutputStream fos = new FileOutputStream(file);
+		fos.write(text.getBytes());
+		if(fos!=null){
+		    fos.close();
 		}
-		return null;
+		return file;
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
 	}
+	return null;
+}
 ```
 
 ## step 5 -- actual use drools
 ```
 BaseRules baseRules = new CarIllegalRules(count, money, points);
 if(baseRules!=null) {
-		logger.info("before fire rules:"+baseRules);
-		DSLUtil.fireRules(ActivityUtil.createBusinessRuleFile(car_activity, baseRules.getClass(), 
-				baseRules.getParam_text().split(","), baseRules.getParam_value().split(",")), baseRules);
-		logger.info("after fire rules:"+baseRules);
-		if(baseRules.isCan_push()) {
-        //In here, the rules are used to judge the success of the entity, and you can do something!!!
-    }
+	logger.info("before fire rules:"+baseRules);
+	DSLUtil.fireRules(ActivityUtil.createBusinessRuleFile(car_activity, baseRules.getClass(), 
+		baseRules.getParam_text().split(","), baseRules.getParam_value().split(",")), baseRules);
+	logger.info("after fire rules:"+baseRules);
+	if(baseRules.isCan_push()) {
+        	//In here, the rules are used to judge the success of the entity, and you can do something!!!
+    	}
 }
 ```
