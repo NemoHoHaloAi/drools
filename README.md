@@ -1,7 +1,8 @@
-# drools-impl
-Use drools in project and something about
+# drools使用
 
-## step 1 -- add independence to maven pom.xml file
+服务端项目中使用drools的几个基本步骤；
+
+## step 1 -- 添加相关依赖到maven pom.xml
 ```
 <dependency>
 	<groupId>org.drools</groupId>
@@ -15,7 +16,7 @@ Use drools in project and something about
 </dependency>
 ```
 
-## step 2 -- create a java entity class for check with rule file
+## step 2 -- 创建实体类加载规则文件
 ```
 public class CarIllegalRules extends BaseRules{
 	
@@ -80,9 +81,9 @@ public class CarIllegalRules extends BaseRules{
 	}
 }
 ```
-> PS:the main method is to test this class
+> PS:main函数是用来测试这个类的；
 
-## step 3 -- create DSLUtils class to perform rule
+## step 3 -- 创建DSLUtils类去执行相应规则
 ```
 public class DSLUtil {
 	public static void fireRules(File file, Object rules) {
@@ -124,7 +125,7 @@ public class DSLUtil {
 }
 ```
 
-## step 4 -- create a java class to generate rule file(like xxx.drl, this part is option, and if u want to genarate your xxx.drl file with java code, u should use this part, if your xxx.drl is generate by human, and you dont need this part)
+## step 4 -- 创建一个类去生成规则文件(比如生成 music.drl 的音乐规则文件，这一步是可选的，区别在于规则文件的生成是代码生成，还是人工生成，我们的项目中是运维同学在后台管理界面通过一些图形化输入框输入一些指定参数，而生成规则文件是服务端代码生成的，因此有了这部分，比较实用，一方面可以降低生成规则文件的门槛，任何人都可以做，另一方面也避免了人工出错的可能)
 ```
 public class ActivityUtil {
 	/**
@@ -206,7 +207,7 @@ public class ActivityUtil {
 }
 ```
 
-## step 4.1 -- create a file instance with string(step 4 use this)
+## step 4.1 -- 通过字符串创建文件，给上一步用的函数
 ```
 public static File getFileFromText(String tempFileName, String fileTail, String text) {
 	try {
@@ -226,7 +227,7 @@ public static File getFileFromText(String tempFileName, String fileTail, String 
 }
 ```
 
-## step 5 -- actual use drools
+## step 5 -- 规则文件加载，并用以检查当前用户是否满足下发规则条件
 ```
 BaseRules baseRules = new CarIllegalRules(count, money, points);
 if(baseRules!=null) {
