@@ -1,8 +1,16 @@
-# drools使用
+# drools规则引擎
+
+## 关于
+
+drools是一款标准、效率高、速度快的开源规则引擎，基于ReteOO算法，目前主要应用场景在广告、活动下发等领域非常多，比如APP的活动下发，通常都是有很多条件限制的，且各种活动层出不穷，无法代码穷举，而如果每次为了一个活动重新发版上线，显然是不合理的，因此通过drools将活动中变的部分抽象为一个个单独的规则文件，来屏蔽这部分的变化，使得系统不需要从代码层面做出改变，当然了为了更加极致的抽象，通常还需要对规则中的一些可配条件（大于、小于、等于、范围、次数等）也提取到数据库中，这样在现有规则不满足要求时，可以直接通过更改数据库的对应规则表来完善，同样不需要改代码；
+
+我们当时的需求主要就是广告、活动下发规则比较多，广告也是各式各样，因此去调研了drools，对drools也没有过多的挖掘其更多特性，因此还需要大家的指点；
+
+## drools简单使用
 
 服务端项目中使用drools的几个基本步骤；
 
-## step 1 -- 添加相关依赖到maven pom.xml
+### step 1 -- 添加相关依赖到maven pom.xml
 ```
 <dependency>
 	<groupId>org.drools</groupId>
@@ -16,7 +24,7 @@
 </dependency>
 ```
 
-## step 2 -- 创建实体类加载规则文件
+### step 2 -- 创建实体类加载规则文件
 ```
 public class CarIllegalRules extends BaseRules{
 	
@@ -83,7 +91,7 @@ public class CarIllegalRules extends BaseRules{
 ```
 > PS:main函数是用来测试这个类的；
 
-## step 3 -- 创建DSLUtils类去执行相应规则
+### step 3 -- 创建DSLUtils类去执行相应规则
 ```
 public class DSLUtil {
 	public static void fireRules(File file, Object rules) {
@@ -125,7 +133,10 @@ public class DSLUtil {
 }
 ```
 
-## step 4 -- 创建一个类去生成规则文件(比如生成 music.drl 的音乐规则文件，这一步是可选的，区别在于规则文件的生成是代码生成，还是人工生成，我们的项目中是运维同学在后台管理界面通过一些图形化输入框输入一些指定参数，而生成规则文件是服务端代码生成的，因此有了这部分，比较实用，一方面可以降低生成规则文件的门槛，任何人都可以做，另一方面也避免了人工出错的可能)
+### step 4 -- 创建一个类去生成规则文件
+
+比如生成 music.drl 的音乐规则文件，这一步是可选的，区别在于规则文件的生成是代码生成，还是人工生成，我们的项目中是运维同学在后台管理界面通过一些图形化输入框输入一些指定参数，而生成规则文件是服务端代码生成的，因此有了这部分，比较实用，一方面可以降低生成规则文件的门槛，任何人都可以做，另一方面也避免了人工出错的可能；
+
 ```
 public class ActivityUtil {
 	/**
@@ -207,7 +218,7 @@ public class ActivityUtil {
 }
 ```
 
-## step 4.1 -- 通过字符串创建文件，给上一步用的函数
+### step 4.1 -- 通过字符串创建文件，给上一步用的函数
 ```
 public static File getFileFromText(String tempFileName, String fileTail, String text) {
 	try {
@@ -227,7 +238,7 @@ public static File getFileFromText(String tempFileName, String fileTail, String 
 }
 ```
 
-## step 5 -- 规则文件加载，并用以检查当前用户是否满足下发规则条件
+### step 5 -- 规则文件加载，并用以检查当前用户是否满足下发规则条件
 ```
 BaseRules baseRules = new CarIllegalRules(count, money, points);
 if(baseRules!=null) {
@@ -240,3 +251,9 @@ if(baseRules!=null) {
     	}
 }
 ```
+
+## 小结
+
+本文通过对drools的简单使用步骤的讲解，为大家展示了drools最简单的使用方式，而它能做到的远远不止看到的这些，但是基本框架是这样，大家可以尝试挖掘规则文件的一些黑操作，可以对多变的业务进行极致的抽象，再也不用为了这些重新发版啦，LOL；
+
+PS：想深入了解的同学还是要去看看Rete算法、drools的推理机制等等，本文主要从该引擎的入门出发哈；
